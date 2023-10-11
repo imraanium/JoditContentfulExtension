@@ -1,55 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Custom rich text for PDP</title>
     <link rel="stylesheet" href="https://contentful.github.io/ui-extensions-sdk/cf-extension.css">
     <script src="https://contentful.github.io/ui-extensions-sdk/cf-extension-api.js"></script>
-     <script src="https://cdn.jsdelivr.net/npm/jodit@latest/build/jodit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jodit@latest/build/jodit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@contentful/app-sdk@4"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jodit@latest/build/jodit.min.css">
-	</head>
+</head>
+
 <body>
     <textarea id="editor"></textarea>
-			<script>
-				window.contentfulExtension.init();
+    <script>
+        var initialize = function () {
+            const editor = Jodit.make("#editor", {
+				height: 480,
+                buttons: "bold,italic,underline,strikethrough,eraser,ul,ol,image,cut,copy,paste,selectall,hr,table,link,symbols,indent,outdent,left",
+                controls: {
 
-				const editor = Jodit.make("#editor", {
-					buttons: "bold,italic,underline,strikethrough,eraser,ul,ol,image,cut,copy,paste,selectall,hr,table,link,symbols,indent,outdent,left",
-					controls: {
-					    
-						ul: {
-							list: Jodit.atom({
-								default: 'Default',
-								circle: 'Circle',
-								square: 'Square',
-								cross: 'Cross',
-								tick: 'Tick'
-							}),
-							
-							 exec(editor, current, control) {
-							    var overrideCSS = {
-								  "tick" : {"list-style-type": "none", "list-style-image": "url('https://images.ctfassets.net/olgn490fyv7t/QNDix0vAsyCI4EGOqMsJY/d33280609c2bce571af2b1f736ae6cf3/Fill_1.png')"},
-								  "cross" : {"list-style-type": "none", "list-style-image": "url('https://images.ctfassets.net/olgn490fyv7t/k7Lq7hiMyLT1XPhqnE6TP/7ef610edeb4b10a088cdded6b6dec225/Fill_1_1_.png')"}
-								};
-							    var value = control.control.name;
-								var styles;
-								if(Object.keys(overrideCSS).includes(value)){
-								   styles = overrideCSS[value];
-								}else{
-								   styles = {"list-style-type": value};
-								}
-                                
-								editor.s.applyStyle(styles, {
-									element: "ul"
-								});
-								editor.setEditorValue(); 
-							}
-						}
-					}
-				});
-	</script>
+                    ul: {
+                        list: Jodit.atom({
+                            default: 'Default',
+                            circle: 'Circle',
+                            square: 'Square',
+                            cross: 'Cross',
+                            tick: 'Tick'
+                        }),
+
+                        exec(editor, current, control) {
+                            var overrideCSS = {
+                                "tick": { "list-style-type": "none", "list-style-image": "url('https://images.ctfassets.net/olgn490fyv7t/QNDix0vAsyCI4EGOqMsJY/d33280609c2bce571af2b1f736ae6cf3/Fill_1.png')" },
+                                "cross": { "list-style-type": "none", "list-style-image": "url('								  https://images.ctfassets.net/olgn490fyv7t/k7Lq7hiMyLT1XPhqnE6TP/7ef610edeb4b10a088cdded6b6dec225/Fill_1_1_.png')" }
+                            };
+                            var value = control.control.name;
+                            var styles;
+                            if (Object.keys(overrideCSS).includes(value)) {
+                                styles = overrideCSS[value];
+                            } else {
+                                styles = { "list-style-type": value };
+                            }
+
+                            editor.s.commitStyle({
+                                element: 'ul',
+                                attributes: {
+                                    style: styles
+                                }
+                            });
+                            editor.setEditorValue();
+                        }
+                    }
+                }
+            });
+			return editor;
+        }
+        var cfExt = window.contentfulExtension || window.contentfulWidget;
+        cfExt.init(extension => {
+            extension.window.updateHeight(500);
+            const select = document.getElementById('editor');
+            var editor = initialize();
+            const value = extension.field.getValue();
+			editor.s.insertHTML(value);
+            // send changes to the Contentful web app
+            select.addEventListener('change', event => {
+                extension.field.setValue(event.target.value);
+            });
+
+        });
+
+    </script>
 </body>
 
 </html>
