@@ -18,7 +18,7 @@
     <script>
         var initialize = function () {
             const editor = Jodit.make("#editor", {
-				height: 480,
+				height: 680,
                 buttons: "bold,italic,underline,strikethrough,eraser,ul,ol,image,cut,copy,paste,selectall,hr,table,link,symbols,indent,outdent,left",
                 controls: {
 
@@ -63,7 +63,7 @@
         }
         var cfExt = window.contentfulExtension || window.contentfulWidget;
         cfExt.init(extension => {
-            extension.window.updateHeight(500);
+            extension.window.updateHeight(700);
             const select = document.getElementById('editor');
             var editor = initialize();
             const value = extension.field.getValue();
@@ -72,7 +72,6 @@
             select.addEventListener('change', event => {
                 extension.field.setValue(event.target.value);
             });
-
         });
 
     </script>
