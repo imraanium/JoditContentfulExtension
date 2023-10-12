@@ -28,13 +28,17 @@
                             circle: 'Circle',
                             square: 'Square',
                             cross: 'Cross',
-                            tick: 'Tick'
+                            tick: 'Tick',
+                            redCross: 'Red Cross',
+                            greenTick: 'Green Tick',
                         }),
 
                         exec(editor, current, control) {
                             var overrideCSS = {
-                                "tick": { "list-style-type": "none", "list-style-image": "url(https://images.ctfassets.net/olgn490fyv7t/QNDix0vAsyCI4EGOqMsJY/d33280609c2bce571af2b1f736ae6cf3/Fill_1.png)" },
-                                "cross": { "list-style-type": "none", "list-style-image": "url(https://images.ctfassets.net/olgn490fyv7t/k7Lq7hiMyLT1XPhqnE6TP/7ef610edeb4b10a088cdded6b6dec225/Fill_1_1_.png)" }
+                                "tick": { "list-style-type": "none", "list-style-image": "url(https://images.ctfassets.net/9wtva4vhlgxb/4QVmTZX9ProyZSGSsWFR5a/be34b5ada5fa6fb20b4b75a35f898376/defaultTick.svg)" },
+                                "cross": { "list-style-type": "none", "list-style-image": "url(https://images.ctfassets.net/9wtva4vhlgxb/57Bs6N8rYXw2UTNccxkU04/69bafea88f19d0fa768f06978a75674e/Icon.svg)" },
+                                "redCross": { "list-style-type": "none", "list-style-image": "url(https://images.ctfassets.net/9wtva4vhlgxb/7JVksVLOtNcik34xICsTz1/3352b6f249c00a5c8ee4a75a9b9f63ac/redCross.svg)" },
+                                "greenTick": { "list-style-type": "none", "list-style-image": "url(https://images.ctfassets.net/9wtva4vhlgxb/3imAMwO9ZIKjDAxHwIZTbg/c2f7567966336f261e39c18ccfdd1346/greenTick.svg)" }
                             };
                             var value = control.control.name;
                             var styles;
