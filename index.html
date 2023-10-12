@@ -67,7 +67,7 @@
             const select = document.getElementById('editor');
             var editor = initialize();
             const value = extension.field.getValue();
-			editor.s.insertHTML(value);
+			if(value) editor.s.insertHTML(value);
             // send changes to the Contentful web app
             select.addEventListener('change', event => {
                 extension.field.setValue(event.target.value);
