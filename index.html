@@ -20,8 +20,12 @@
             const editor = Jodit.make("#editor", {
 				height: 680,
                 buttons: "bold,italic,underline,strikethrough,eraser,ul,ol,image,cut,copy,paste,selectall,hr,table,link,symbols,indent,outdent,left",
+                createAttributes: {
+                    ul: function (ul) {
+                        ul.classList.add('custom-ul');
+                    }
+                },
                 controls: {
-
                     ul: {
                         list: Jodit.atom({
                             default: 'Default',
@@ -29,16 +33,16 @@
                             square: 'Square',
                             cross: 'Cross',
                             tick: 'Tick',
-                            redCross: 'Red Cross',
-                            greenTick: 'Green Tick',
+                            red_cross: 'Red Cross',
+                            green_tick: 'Green Tick',
                         }),
 
                         exec(editor, current, control) {
                             var overrideCSS = {
-                                "tick": { "list-style-type": "none", "list-style-image": "url(https://images.ctfassets.net/9wtva4vhlgxb/4QVmTZX9ProyZSGSsWFR5a/be34b5ada5fa6fb20b4b75a35f898376/defaultTick.svg)" },
-                                "cross": { "list-style-type": "none", "list-style-image": "url(https://images.ctfassets.net/9wtva4vhlgxb/57Bs6N8rYXw2UTNccxkU04/69bafea88f19d0fa768f06978a75674e/Icon.svg)" },
-                                "redCross": { "list-style-type": "none", "list-style-image": "url(https://images.ctfassets.net/9wtva4vhlgxb/7JVksVLOtNcik34xICsTz1/3352b6f249c00a5c8ee4a75a9b9f63ac/redCross.svg)" },
-                                "greenTick": { "list-style-type": "none", "list-style-image": "url(https://images.ctfassets.net/9wtva4vhlgxb/3imAMwO9ZIKjDAxHwIZTbg/c2f7567966336f261e39c18ccfdd1346/greenTick.svg)" }
+                                "tick": { "list-style-type": "none", "background-image": "url(https://images.ctfassets.net/9wtva4vhlgxb/4QVmTZX9ProyZSGSsWFR5a/be34b5ada5fa6fb20b4b75a35f898376/defaultTick.svg)", "background-repeat": "no-repeat" },
+                                "cross": { "list-style-type": "none", "background": "url(https://images.ctfassets.net/9wtva4vhlgxb/57Bs6N8rYXw2UTNccxkU04/69bafea88f19d0fa768f06978a75674e/Icon.svg)", "background-repeat": "no-repeat" },
+                                "red_tick": { "list-style-type": "none", "background-image": "url(https://images.ctfassets.net/9wtva4vhlgxb/7JVksVLOtNcik34xICsTz1/3352b6f249c00a5c8ee4a75a9b9f63ac/redCross.svg)", "background-repeat": "no-repeat" },
+                                "green_tick": { "list-style-type": "none", "background-image": "url(https://images.ctfassets.net/9wtva4vhlgxb/3imAMwO9ZIKjDAxHwIZTbg/c2f7567966336f261e39c18ccfdd1346/greenTick.svg)", "background-repeat": "no-repeat"}
                             };
                             var value = control.control.name;
                             var styles;
@@ -51,7 +55,8 @@
                             editor.s.commitStyle({
                                 element: 'ul',
                                 attributes: {
-                                    style: styles
+                                    style: styles,
+                                    class: value
                                 }
                             });
                             editor.setEditorValue();
